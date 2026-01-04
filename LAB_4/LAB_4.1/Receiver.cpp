@@ -87,15 +87,12 @@ private:
         file.read(messageBuffer, BUFFER_SIZE - 1);
         messageBuffer[BUFFER_SIZE - 1] = '\0';
 
-        // Конвертируем в string для корректного вывода русского текста
         std::string receivedMessage(messageBuffer);
 
-        // Очищаем прочитанное сообщение
         file.seekp(messageOffset);
         char clearBuffer[BUFFER_SIZE] = { 0 };
         file.write(clearBuffer, BUFFER_SIZE);
 
-        // Обновляем индекс чтения
         currentRead = (currentRead + 1) % bufferSlots;
         file.seekp(sizeof(int));
         file.write(reinterpret_cast<char*>(&currentRead), sizeof(int));
@@ -135,13 +132,11 @@ int main() {
         return 1;
     }
 
-    // Создаем объекты синхронизации
     HANDLE emptySemaphore = CreateSemaphoreA(NULL, queueSize, queueSize, "EmptyBufferCount");
     HANDLE fullSemaphore = CreateSemaphoreA(NULL, 0, queueSize, "FullBufferCount");
     HANDLE fileLock = CreateMutexA(NULL, FALSE, "FileLockObject");
     HANDLE systemReady = CreateEventA(NULL, TRUE, FALSE, "SystemReadyEvent");
 
-    // Запускаем процессы-отправители
     for (int i = 0; i < processCount; i++) {
         std::string command = "Sender.exe " + fileName;
 
@@ -173,7 +168,6 @@ int main() {
 
     manager.processIncomingMessages();
 
-    // Очистка ресурсов
     CloseHandle(emptySemaphore);
     CloseHandle(fullSemaphore);
     CloseHandle(fileLock);

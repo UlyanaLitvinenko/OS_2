@@ -5,6 +5,7 @@
 #include "BoostMessageSender.h"
 
 #include <boost/interprocess/managed_shared_memory.hpp>
+
 #include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
