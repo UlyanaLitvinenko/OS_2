@@ -5,7 +5,7 @@ import org.example.dto.TaskStatusPatch;
 import org.example.model.Task;
 import org.example.model.TaskStatus;
 import org.example.service.TaskService;
-import org.example.service.TaskProducer; // добавляем продюсер для RabbitMQ
+import org.example.service.TaskProducer; 
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
-    private final TaskProducer taskProducer; // внедряем продюсер
+    private final TaskProducer taskProducer; 
 
     public TaskController(TaskService taskService, TaskProducer taskProducer) {
         this.taskService = taskService;
@@ -49,7 +49,6 @@ public class TaskController {
 
         Task created = taskService.createTask(task);
 
-        // Отправляем сообщение в RabbitMQ
         taskProducer.sendTask("Создана задача: " + created.getTitle());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -61,7 +60,7 @@ public class TaskController {
             @RequestBody @Valid TaskRequest request) {
 
         Task task = new Task(
-                id, // при обновлении указываем id
+                id, 
                 request.getTitle(),
                 request.getDescription(),
                 request.getStatus()
