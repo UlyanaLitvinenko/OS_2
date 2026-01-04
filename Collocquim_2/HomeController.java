@@ -8,7 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        // Возвращаем имя шаблона (index.html в папке templates)
         return "index";
     }
 }
