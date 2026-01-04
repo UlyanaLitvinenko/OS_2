@@ -9,6 +9,6 @@ public class RabbitConfig {
 
     @Bean
     public Queue taskQueue() {
-        return new Queue("tasks", true); // durable=true значит очередь сохраняется
+        return new Queue("tasks", true); 
     }
 }
